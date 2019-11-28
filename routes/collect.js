@@ -15,20 +15,20 @@ let tickWriter = createWriter(`output/${prefix}_ticks.csv`);
 let killWriter = createWriter(`output/${prefix}_kills.csv`);
 
 /* POST match kills */
-router.get("/kill", function(req, res, next) {
-  const { tick, killerId, killedId } = req.query;
+router.post("/kill", function(req, res, next) {
+  const { tick, killerId, killedId } = req.body;
   killWriter.write({ tick, killerId, killedId });
   res.status(200).send({
     success: true
-  })
+  });
 });
 
 /* POST player game state */
-router.get("/tick", function(req, res, next) {
+router.post("/tick", function(req, res, next) {
   tickWriter.write(req.body);
   res.status(200).send({
     success: true
-  })
+  });
 });
 
 /* POST reset CSV writer */
@@ -40,7 +40,7 @@ router.get("/reset", function(req, res, next) {
   killWriter = createWriter(`output/${prefix}_kills.csv`);
   res.status(200).send({
     success: true
-  })
+  });
 });
 
 module.exports = router;
